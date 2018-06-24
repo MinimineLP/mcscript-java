@@ -7,7 +7,7 @@ Minecraft Script is made by [@Stevertus](https://github.com/Stevertus), who wrot
 
 ## Installation (just for windows)
 Installation guide
-1. Download this archive and extract it to a folder of your choice
+1. Download [this archive](https://github.com/MinimineLP/mcscript-java/raw/master/mcscript.zip) and extract it to a folder of your choice
 2. Open cmd and type java, if it works you can skip the next few steps
   - open the Minecraft Launcher
   - klick on "profiles"
