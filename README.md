@@ -10,14 +10,14 @@ Installation guide
 1. Download [this archive](https://github.com/MinimineLP/mcscript-java/raw/master/mcscript.zip) and extract it to a folder of your choice
 2. Open cmd and type java, if it works you can skip the next few steps
   - open the Minecraft Launcher
-  - klick on "profiles"
+  - click on "profiles"
   - enable "advanced settings"
-  - klick on o profile of your choice
+  - click on o profile of your choice
   - enable "java programm file"
   - copy the path
   - in the file "mcscript.bat" replace the word "java" with the path
   - remove the w from the javaw in the path and save the file (you can now close it)
-Batch datei: 
+Batch file: 
 ```bat
 @echo off
 if "%1"=="" (
