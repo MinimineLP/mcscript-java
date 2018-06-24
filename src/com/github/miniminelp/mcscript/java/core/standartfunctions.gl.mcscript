@@ -1,0 +1,15 @@
+modal log(text,sel = "@a") {
+	/tellraw $(sel) [{"text":"console => ","color":"aqua"},{"text":"$(text)","color":"white"}]
+}
+
+modal newStand(name="",position=~ ~ ~,tags=[],marker=0b,invisible=0b,noGravity=0b){
+	/summon armor_stand $(position) {CustomName:"{\"text\":\"$(name)\"}", Tags: $(tags),Invisible:$(invisible),Marker:$(marker),NoGravity:$(noGravity)}
+}
+
+modal play(sound,selector="@s",type="master"){
+	/playsound $(sound) $(type) $(selector)
+}
+
+modal playsound(sound,selector="@s",type="master"){
+	/playsound $(sound) $(type) $(selector)
+}
