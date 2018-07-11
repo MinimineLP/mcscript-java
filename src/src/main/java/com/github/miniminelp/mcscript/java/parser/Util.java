@@ -17,7 +17,7 @@ public class Util implements MCScriptObject {
 	
 	public static final String KEYWORDS = " then true false "
 			+ "for as at asat positioned align dimension rotated "
-			+ "anchored while do forEach raycast stop continue "
+			+ "anchored while do forEach stop continue "
 			+ "default tag score ";
 	
 	public static final String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_123456789";

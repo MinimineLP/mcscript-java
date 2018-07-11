@@ -16,7 +16,7 @@ import com.github.miniminelp.mcscript.java.parser.ParsedObject;
 /**
  * @author Minimine
  * @since 0.0.1
- * @version 0.0.1
+ * @version 0.0.3
  *
  */
 public class FunctionCall extends GeneratorRule {
@@ -29,7 +29,7 @@ public class FunctionCall extends GeneratorRule {
 	@Override
 	public List<Object> generate() {
 		
-		FileEdit fe = new FileEdit(this.obj.getFile());
+		FileEdit fe = FileEdit.getLastEdit();
 		
 		List<Object> ret = new LinkedList<Object>();
 
@@ -87,7 +87,7 @@ public class FunctionCall extends GeneratorRule {
 					ret.addAll(generate(cmd, filter));
 				}
 				
-				ret.add(fe);
+				if(fe != null) ret.add(fe);
 				
 				return ret;
 			}

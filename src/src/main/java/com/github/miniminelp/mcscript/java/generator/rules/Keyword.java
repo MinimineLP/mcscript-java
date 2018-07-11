@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.github.miniminelp.mcscript.java.filemanager.SystemFiles;
+import com.github.miniminelp.mcscript.java.core.Main;
 import com.github.miniminelp.mcscript.java.generator.GeneratorRule;
 import com.github.miniminelp.mcscript.java.generator.rules.FileSet.FileEdit;
 import com.github.miniminelp.mcscript.java.parser.ConstUseParser;
@@ -19,13 +19,12 @@ import com.github.miniminelp.mcscript.java.parser.StatementParser;
 /**
  * @author Minimine
  * @since 0.0.1
- * @version 0.0.1
+ * @version 0.0.3
  *
  */
 public class Keyword extends GeneratorRule {
 
 	public static int whileid=0;
-	public static int raycastid=0;
 	
 	/**
 	 * @see com.github.miniminelp.mcscript.java.generator.GeneratorRule#generate()
@@ -39,11 +38,12 @@ public class Keyword extends GeneratorRule {
 	 * @param content the content {@link Content}
 	 * @param ex should the keyword an execute? {@link Boolean}
 	 * @return the generated content {@link List}?extends {@link Object}
+	 * 
 	 */
 	public List<Object> generateKeyword(Content content, boolean ex) {
 		
-		FileEdit fe = new FileEdit(this.obj.getFile());
-		
+		FileEdit fe = FileEdit.getLastEdit();
+
 		List<Object> contentlist = new LinkedList<Object>();
 		
 		Object[] cont = (Object[]) content.getContent();
@@ -217,95 +217,21 @@ public class Keyword extends GeneratorRule {
 			List<String> statements = generateStatement(statement);
 			
 			for(String s : statements)
-				contentlist.add("execute "+s+"run function mcscript/while"+whileid);
+				contentlist.add("execute "+s+"run function "+Main.getActualDataFolder()+":mcscript/while"+whileid);
 			
 			contentlist.add(new FileEdit("mcscript/while"+whileid));
 			
 			for(Content c : action.getContent())contentlist.addAll(generate(c));
 			
 			for(String s : statements) {
-				contentlist.add("execute "+s+"run function mcscript/while"+whileid);
+				contentlist.add("execute "+s+"run function "+Main.getActualDataFolder()+":mcscript/while"+whileid);
 			}
 			System.out.println(contentlist);
 			whileid++;
 			
 		}
-		if(keyword.equals("raycast")) {
-			
-			if(action == null)throwError("Missing action for raycast block", content.getLine(), obj.getFile());
-			
-			String blocks = "100";
-			String target = "air";
-			String ui = "unless";
-			boolean entity = false;
-			
-			if(statement!=null) {
-				String[] s = statement.split(",");
-				if(s.length>0)blocks=fixSelector(s[0]);
-				if(s.length>1) {
-					s[1]=fixSelector(s[1]);
-					while(s[1].startsWith("!")) {
-						s[1]=s[1].replaceFirst("\\!", "");
-						if(ui.equals("if"))ui="unless";
-						else ui = "if";
-					}
-					s[1]=fixSelector(s[1]);
-					if(s[1].startsWith("block ")) {
-						s[1]=s[1].replaceFirst("block ", "");
-					}
-					else if(s[1].startsWith("entity ")) {
-						s[1]=s[1].replaceFirst("entity ", "");
-						entity=true;
-					}
-					target=fixSelector(s[1]);
-				}
-			}
 
-			SystemFiles.createScoreboardObjective("mcscript_raycast");
-
-			contentlist.add("scoreboard players set raycast"+raycastid+" mcscript_raycast 0");
-			contentlist.add("execute positioned ~ ~1 ~ run function mcscript/raycast"+raycastid);
-			contentlist.add(new FileEdit("mcscript/raycast"+raycastid));
-			
-			contentlist.add("scoreboard players add raycast"+raycastid+" mcscript_raycast 1");
-			
-			List<Object> generated = list();
-			for(Content c : action.getContent()) {
-				generated.addAll(generate(c));
-			}
-			
-			if(entity) {
-				if(target.startsWith("@")&&target.contains("[")&&fixSelector(target).endsWith("]")) {
-					target = fixSelector(target);
-					target = target.substring(0, target.length()-1);
-					target += ",distance=..0.7,sort=nearest]";
-				}
-				else if(target.startsWith("@")) {
-					target += "[distance=..0.7,sort=nearest]";
-				}
-				else {
-					target = "@e[name=\""+target+"\",distance=..0.7,sort=nearest]";
-				}
-				contentlist.add("execute positioned ^ ^ ^1 positioned ~ ~-1 ~ "+ui+" entity "+target+" run tag @s add mcscriptStop");
-			}
-			else contentlist.add("execute positioned ^ ^ ^1 "+ui+" block ~ ~ ~ "+target+" run tag @s add mcscriptStop");
-			for(Object o : generated) {
-				if(o instanceof String) {
-					String s = (String)o;
-					s=s.replaceAll("\r", "")
-					   .replaceAll("\n", "")
-					   .replaceAll("\t", "");
-					while(s.startsWith(" "))s=s.replaceFirst(" ", "");
-					contentlist.add("execute if entity @s[tag=mcscriptStop] run "+s);
-				}
-			}
-
-			contentlist.add("execute positioned ^ ^ ^1 if score raycast"+raycastid+" mcscript_raycast matches .."+blocks+" if entity @s[tag=!mcscriptStop] run function mcscript/raycast"+raycastid);
-			contentlist.add("tag @s[tag=mcscriptStop] remove mcscriptStop");
-			raycastid++;
-		}
-		
-		contentlist.add(fe);
+		if(fe != null)contentlist.add(fe);
 		return contentlist;
 	}
 

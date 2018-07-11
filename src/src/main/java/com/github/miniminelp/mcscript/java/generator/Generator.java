@@ -7,7 +7,7 @@ package com.github.miniminelp.mcscript.java.generator;
 /**
  * @author Minimine
  * @since 0.0.1
- * @version 0.0.1
+ * @version 0.0.3
  *
  */
 
@@ -48,6 +48,7 @@ public class Generator implements MCScriptObject, GeneratorFunctions {
 		this.rules.put("constdeclaration", new ConstDeclaration());
 		this.rules.put("booleandeclaration", new BooleanDeclaration());
 		this.rules.put("varedit", new VarEdit());
+		this.rules.put("raycast", new Raycast());
 	}
 	
 	public Generator(ParsedObject obj, List<Content> methods, HashMap<String,String> consts) {

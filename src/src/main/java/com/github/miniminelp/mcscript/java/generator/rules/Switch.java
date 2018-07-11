@@ -15,7 +15,7 @@ import com.github.miniminelp.mcscript.java.parser.Util;
 /**
  * @author Minimine
  * @since 0.0.1
- * @version 0.0.1
+ * @version 0.0.3
  *
  */
 public class Switch extends GeneratorRule {
@@ -27,7 +27,7 @@ public class Switch extends GeneratorRule {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object> generate() {
-		FileEdit fe = new FileEdit(this.obj.getFile());
+		FileEdit fe = FileEdit.getLastEdit();
 		
 		List<Object> ret = new LinkedList<Object>();
 		
@@ -168,7 +168,7 @@ public class Switch extends GeneratorRule {
 			}
 		}
 		ret.add("tag @s remove mcscriptSwitch");
-		ret.add(fe);
+		if(fe != null)ret.add(fe);
 		return ret;
 	}
 }

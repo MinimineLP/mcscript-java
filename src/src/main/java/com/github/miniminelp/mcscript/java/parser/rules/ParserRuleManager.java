@@ -39,6 +39,7 @@ public class ParserRuleManager {
 		rules.add(new Command());
 		rules.add(new Switch());
 		rules.add(new If());
+		rules.add(new Raycast());
 		rules.add(new BooleanDeclaration());
 		rules.add(new VariableDeclaration());
 		rules.add(new ConstantDeclaration());

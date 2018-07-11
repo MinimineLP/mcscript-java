@@ -82,8 +82,6 @@ public class Keyword extends ParserRule {
 			Content action = new Content("keyword", content, line);
 			parsed.add(action);
 			
-			setParsable(parsable);
-			
 			return true;
 		}
 

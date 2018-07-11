@@ -33,6 +33,7 @@ public class FileSet extends GeneratorRule {
 	 */
 	public static class FileEdit {
 		
+		private static FileEdit lastedit = null;
 		private String file;
 		
 		/**
@@ -40,8 +41,8 @@ public class FileSet extends GeneratorRule {
 		 */
 		public FileEdit(String file) {
 			this.setFile(file);
+			setLastEdit(this);
 		}
-		
 		
 		/**
 		 * @return the file {@link String}
@@ -57,6 +58,14 @@ public class FileSet extends GeneratorRule {
 		public void setFile(String file) {
 			this.file = file;
 		}
+		
+		/**
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			return getClass().getName()+"@"+Integer.toHexString(hashCode())+":\t\""+file+"\"";
+		}
 
 		/**
 		 * @param file the file name {@link String}
@@ -65,13 +74,21 @@ public class FileSet extends GeneratorRule {
 		public static FileEdit create(String file) {
 			return new FileEdit(file);
 		}
-		
+
+
 		/**
-		 * @see java.lang.Object#toString()
+		 * @return the lastedit
 		 */
-		@Override
-		public String toString() {
-			return getClass().getName()+"@"+Integer.toHexString(hashCode())+":\t\""+file+"\"";
+		public static FileEdit getLastEdit() {
+			return lastedit;
+		}
+
+
+		/**
+		 * @param lastedit the lastedit to set
+		 */
+		public static void setLastEdit(FileEdit lastedit) {
+			FileEdit.lastedit = lastedit;
 		}
 	}
 }

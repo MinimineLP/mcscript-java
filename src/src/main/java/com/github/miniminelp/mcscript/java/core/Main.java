@@ -32,8 +32,16 @@ import com.github.miniminelp.mcscript.java.parser.ParsedObject;
 import com.github.miniminelp.mcscript.java.parser.Parser;
 import com.github.miniminelp.mcscript.java.util.MCScriptObject;
 
+/**
+ * @author Minimine
+ * @since 0.0.1
+ * @version 0.0.3
+ *
+ */
 public class Main implements MCScriptObject {
 	
+	private static String actualDataFolder;
+
 	/**
 	 * @param args java main args {@link String}[]
 	 * @throws IOException Can throw a {@link IOException}
@@ -70,6 +78,9 @@ public class Main implements MCScriptObject {
 			}
 			
 			for(File sub : data.listFiles()) {
+
+				Main.setActualDataFolder(sub.getName());
+				
 				File scripts = new File(sub, "scripts");
 				if(scripts.exists()) {
 					
@@ -324,6 +335,10 @@ public class Main implements MCScriptObject {
 		return files;
 	}
 	
+	/**
+	 * @param f the file to write {@link File}
+	 * @param content the content to write into the file {@link String}
+	 */
 	public static void writeFile(File f,String content) {
 		try {
 			if(!f.exists())f.createNewFile();
@@ -333,5 +348,21 @@ public class Main implements MCScriptObject {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+
+	/**
+	 * @return the actualDataFolder
+	 */
+	public static String getActualDataFolder() {
+		return actualDataFolder;
+	}
+
+
+	/**
+	 * @param actualDataFolder the actualDataFolder to set
+	 */
+	public static void setActualDataFolder(String actualDataFolder) {
+		Main.actualDataFolder = actualDataFolder;
 	}
 }

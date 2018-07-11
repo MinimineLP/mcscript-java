@@ -10,6 +10,12 @@ import com.github.miniminelp.mcscript.java.parser.ParsedObject;
 import com.github.miniminelp.mcscript.java.parser.StatementParser;
 import com.github.miniminelp.mcscript.java.util.Utilitys;
 
+/**
+ * @author Minimine
+ * @since 0.0.1
+ * @version 0.0.3
+ *
+ */
 public class If extends GeneratorRule {
 
 	/**
@@ -18,7 +24,7 @@ public class If extends GeneratorRule {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object> generate() {
-		FileEdit fe = new FileEdit(this.obj.getFile());
+		FileEdit fe = FileEdit.getLastEdit();
 		String ifid=Utilitys.generateRandomID();
 		String tag = "mcscriptIf"+ifid;
 
@@ -58,7 +64,7 @@ public class If extends GeneratorRule {
 		}
 		ret.add("tag @e[tag=mcscriptTags,tag="+tag+"] remove "+tag);
 		
-		ret.add(fe);
+		if(fe != null)ret.add(fe);
 		return ret;
 	}
 	
