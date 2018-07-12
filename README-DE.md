@@ -1,5 +1,7 @@
 # Minecraft Script
 
+[English README](README.md)
+
 [Minecraft Script](https://github.com/MinimineLP/mcscript-java) ist eine Programmiersprache, welche für Mapmaker gemacht ist, welche professionelles Programmieren in Minecraft haben wollen. Diese Sprache hat einen eigenen [Discord Server](https://discordapp.com/invite/WvtCkyg), wenn ihr fragen, probleme, bugs findet, oder euch einfach nur mit anderen mapmakern verständigen wollt guckt doch mal vorbei.
 
 ## Orginal
