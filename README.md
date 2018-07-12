@@ -12,12 +12,12 @@ Installation guide
   - open the Minecraft Launcher
   - click on "profiles"
   - enable "advanced settings"
-  - click on o profile of your choice
+  - click on a profile of your choice
   - enable "java programm file"
   - copy the path
   - in the file "mcscript.bat" replace the word "java" with the path
   - remove the w from the javaw in the path and save the file (you can now close it)
-Batch file: 
+Batch file:
 ```bat
 @echo off
 if "%1"=="" (
@@ -25,13 +25,12 @@ echo Needing min one argument!
 goto end
 )
 JAVA -jar "mcscript - minimal.jar" %*
-:end 
+:end
 ```
 3. Open cmd in the folder, now the command mcscript works in this folder, but not in other folders
-4. If you like to fix this, type the following code into cmd into cmd **__WARNING: This may overwrite other autoruns, there can be bugs after doing this!__**
-```bat
-C:\Windows\System32\reg.exe add "HKCU\Software\Microsoft\Command Processor" /v AutoRun ^ /t REG_EXPAND_SZ /d "set path=%%path%%;%cd%" /f
-```
+
+4. If you like to fix this, execute the globalify.bat file. then you just have to enter "y", and the command is global available (just on your user)<br>
+**WARNING: This may overwrite other commands**
 
 ## Usage
 
