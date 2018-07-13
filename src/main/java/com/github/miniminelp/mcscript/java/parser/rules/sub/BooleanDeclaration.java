@@ -9,7 +9,7 @@ import com.github.miniminelp.mcscript.java.parser.rules.ParserRule;
 /**
  * @author Minimine
  * @since 0.0.1
- * @version 0.0.1
+ * @version 0.0.3
  *
  */
 public class BooleanDeclaration extends ParserRule {
@@ -25,7 +25,7 @@ public class BooleanDeclaration extends ParserRule {
 		String keyword = parsable.actualWord();
 		int line = parsable.getLine();
 		
-		if(keyword.equals("boolean")||keyword.equals("bool")) {
+		if(keyword.equals("boolean")||keyword.equals("bool")||keyword.equals("tag")) {
 			
 			
 			parsable.skipWord();

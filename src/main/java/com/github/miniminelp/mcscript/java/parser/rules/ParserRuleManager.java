@@ -48,6 +48,7 @@ public class ParserRuleManager {
 		rules.add(new Keyword());
 		rules.add(new FunctionCall());
 		rules.add(new VarEdit());
+		rules.add(new Debug());
 		rules.add(new AllowSemicolon());
 		
 		return rules;

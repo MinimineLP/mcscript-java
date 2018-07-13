@@ -575,7 +575,7 @@ public class Parsable implements MCScriptObject, Cloneable {
 	 */
 	@Override
 	public String toString() {
-		return getClass().getName()+"@"+Integer.toHexString(hashCode())+": {"+LINESEPERATOR
+		return getClass().getName()+"@"+Integer.toHexString(hashCode())+"("+pos+"): {"+LINESEPERATOR
 				+new String(code)+LINESEPERATOR
 				+"}";
 	}

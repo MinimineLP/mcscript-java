@@ -47,5 +47,11 @@ Use the [Guide]( https://github.com/Stevertus/mcscript#cli-commands) in Stevertu
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
+
 ## Issues
+
 It would be very nice, if you find a issue to report it via the github issue function, or on the [mcscript discord](https://discordapp.com/invite/WvtCkyg)
+
+## Javadoc
+
+If you are interested how it works, here is the [javadoc](javadoc/index.html)

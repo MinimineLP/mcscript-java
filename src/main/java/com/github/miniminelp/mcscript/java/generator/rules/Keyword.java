@@ -178,11 +178,12 @@ public class Keyword extends GeneratorRule {
 			for(int i=from; i<=to; i++) {
 				
 				HashMap<String, String> filter = new HashMap<String, String>();
+				filter.putAll(consts);
 				filter.put("i", i+"");
 				
 				for(Content a : action.getContent()) {
 				
-					Object[] slist = generate(a).toArray();
+					Object[] slist = generate(a,filter).toArray();
 						
 					for(Object sub : slist) {
 							
@@ -217,14 +218,32 @@ public class Keyword extends GeneratorRule {
 			List<String> statements = generateStatement(statement);
 			
 			for(String s : statements)
-				contentlist.add("execute "+s+"run function "+Main.getActualDataFolder()+":mcscript/while"+whileid);
+				contentlist.add("execute if entity @s[tag=!mcsStopWhile"+whileid+"] "+s+"run function "+Main.getActualDataFolder()+":mcscript/while"+whileid);
+			
 			
 			contentlist.add(new FileEdit("mcscript/while"+whileid));
 			
-			for(Content c : action.getContent())contentlist.addAll(generate(c));
+			for(Content c : action.getContent()) {
+				
+				if(c.getType().equals("keyword")) {
+					Object[] x = (Object[]) c.getContent();
+					String kw = (String) x[0];
+					
+					if(kw.equals("stop")) {
+						contentlist.add("tag @s add mcsStopWhile"+whileid+"");
+					}
+					else if(kw.equals("continue")) {
+						contentlist.add("function "+Main.getActualDataFolder()+":mcscript/while"+whileid);					
+					}
+					else {
+						contentlist.addAll(generate(c));
+					}
+				}
+				else contentlist.addAll(generate(c));
+			}
 			
 			for(String s : statements) {
-				contentlist.add("execute "+s+"run function "+Main.getActualDataFolder()+":mcscript/while"+whileid);
+				contentlist.add("execute if entity @s[tag=!mcsStopWhile"+whileid+"] "+s+"run function "+Main.getActualDataFolder()+":mcscript/while"+whileid);
 			}
 			whileid++;
 			

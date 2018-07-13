@@ -49,3 +49,7 @@ Dieses Projekt ist lizensiert unter einer MIT Lizens. Weitere Informationen [hie
 
 ## Fehler & Bugs
 Es wäre super nett, wenn du, insofern di Fehler findest diese über die [Github Issues Funktion](https://github.com/MinimineLP/mcscript-java/issues) oder über discord meldest. [mcscript discord](https://discordapp.com/invite/WvtCkyg)
+
+## Javadoc
+
+Wenn dich interessiert, wie es functioniert, findest du hier unsere [Javadoc](javadoc/index.html)

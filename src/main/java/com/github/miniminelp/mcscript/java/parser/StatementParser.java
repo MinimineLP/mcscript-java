@@ -12,7 +12,7 @@ import com.github.miniminelp.mcscript.java.parser.rules.ParserRuleFunctions;
 /**
  * @author Minimine
  * @since 0.0.1
- * @version 0.0.1
+ * @version 0.0.3
  *
  */
 public class StatementParser implements ParserRuleFunctions, GeneratorFunctions {
@@ -100,13 +100,14 @@ public class StatementParser implements ParserRuleFunctions, GeneratorFunctions 
 		
 		String actual = "";
 		
-		while(p.hasNext()) {
+		do {
 			p.skipIgnored();
 			ui = "if";
 			while(p.actual().equals("!")) {
 				if(ui.equals("if"))ui="unless";
 				else ui = "if";
 				p.skip();
+				p.skipIgnored();
 			}
 			boolean run = true;
 			String work = "";
@@ -149,8 +150,7 @@ public class StatementParser implements ParserRuleFunctions, GeneratorFunctions 
 					statements=generateVarWork(statements, ui, word, sp, new String[] {
 						Formats.IFSMALLEREQUALSNUMBER,
 						Formats.IFSMALLEREQUALSVARIABLE,
-					});
-					
+					});					
 				}
 				else if(p.actual().equals("=")) {
 					statements=generateVarWork(statements, ui, word, sp, new String[] {
@@ -160,7 +160,6 @@ public class StatementParser implements ParserRuleFunctions, GeneratorFunctions 
 				}
 				
 				else if(!(work.split(" ").length>2)){
-					
 					if(work.contains(" ")) {
 						String[] split = work.split(" ");
 						if(split[1].startsWith("@")){
@@ -176,7 +175,7 @@ public class StatementParser implements ParserRuleFunctions, GeneratorFunctions 
 						else {
 							actual += ui+" entity @e[name="+split[1]+",tag="+split[0]+"] ";
 						}
-					}else {
+					} else {
 						actual += ui+" entity @e[tag=mcscriptTags,tag="+work+"] ";
 					}	
 				}
@@ -201,7 +200,7 @@ public class StatementParser implements ParserRuleFunctions, GeneratorFunctions 
 					actual="";
 				}
 			}
-		}
+		} while(p.hasNext());
 		if(actual != "")statements.add(actual);
 		return statements;
 	}

@@ -52,6 +52,7 @@ public class Generator implements MCScriptObject, GeneratorFunctions {
 		this.rules.put("raycast", new Raycast());
 		this.rules.put("dowhile", new DoWhile());
 		this.rules.put("foreach", new ForEach());
+		this.rules.put("debug", new Debug());
 	}
 	
 	public Generator(ParsedObject obj, List<Content> methods, HashMap<String,String> consts) {

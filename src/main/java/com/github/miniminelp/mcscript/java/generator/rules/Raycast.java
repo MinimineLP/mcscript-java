@@ -135,11 +135,11 @@ public class Raycast extends GeneratorRule {
 			else add += ui2+" block ~ ~ ~ "+target+" ";
 		}
 		
-		if(entity) add += "positioned ~ ~-1 ~ "+ui+" entity "+gt+" run tag @s add mcscriptStop";
-		else add += ui+" block ~ ~ ~ "+gt+" run tag @s add mcscriptStop";
+		if(entity) add += "positioned ~ ~-1 ~ "+ui+" entity "+gt+" run tag @s add mcsStopRayc"+raycastid;
+		else add += ui+" block ~ ~ ~ "+gt+" run tag @s add mcsStopRayc"+raycastid;
 		
 		contentlist.add(add);
-		contentlist.add("execute positioned ^ ^ ^1 if entity @s[tag=!mcscriptStop] if score raycast"+raycastid+" mcscript_raycast matches .."+blocks+" run function "+Main.getActualDataFolder()+":mcscript/raycast"+raycastid);
+		contentlist.add("execute positioned ^ ^ ^1 if entity @s[tag=!mcsStopRayc"+raycastid+"] if score raycast"+raycastid+" mcscript_raycast matches .."+blocks+" run function "+Main.getActualDataFolder()+":mcscript/raycast"+raycastid);
 		
 		for(Object o : generated) {
 			if(o instanceof String) {
@@ -148,11 +148,11 @@ public class Raycast extends GeneratorRule {
 				   .replaceAll("\n", "")
 				   .replaceAll("\t", "");
 				while(s.startsWith(" "))s=s.replaceFirst(" ", "");
-				contentlist.add("execute if score raycast"+raycastid+" mcscript_raycast matches .."+blocks+" if entity @s[tag=mcscriptStop] run "+s);
+				contentlist.add("execute if score raycast"+raycastid+" mcscript_raycast matches .."+blocks+" if entity @s[tag=mcsStopRayc"+raycastid+"] run "+s);
 			}
 		}
 
-		contentlist.add("tag @s[tag=mcscriptStop] remove mcscriptStop");
+		contentlist.add("tag @s[tag=mcsStopRayc"+raycastid+"] remove mcsStopRayc"+raycastid);
 		if(fe != null)contentlist.add(fe);
 		raycastid++;
 		return contentlist;

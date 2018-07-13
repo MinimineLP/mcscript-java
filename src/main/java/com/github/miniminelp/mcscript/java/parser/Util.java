@@ -9,16 +9,16 @@ import com.github.miniminelp.mcscript.java.util.MCScriptObject;
 /**
  * @author Minimine
  * @since 0.0.1
- * @version 0.0.1
+ * @version 0.0.3
  *
  */
 
 public class Util implements MCScriptObject {
 	
-	public static final String KEYWORDS = " then true false "
+	public static final String KEYWORDS = " then "
 			+ "for as at asat positioned align dimension rotated "
 			+ "anchored while stop continue "
-			+ "default tag score ";
+			+ "score ";
 	
 	public static final String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_123456789";
 	
