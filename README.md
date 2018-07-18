@@ -1,7 +1,12 @@
-# Minecraft Script
+# Minecraft Script - Development
 
 [German README](README-DE.md)
 
+## Development
+This is the development branch. Here you can find beta fratures, that are not in the orginal for now. Please note, that this "Beta" features can have bugs, so be carefull with the programm from this branch. You can also report bugs in this branch.
+
+
+## Minecraft script
 [Minecraft Script](https://github.com/MinimineLP/mcscript-java) is a programming-language made for mapmakers that want a more professional way for programming minecraft than just normal ingame commands. This Language has a [Discord Server](https://discordapp.com/invite/WvtCkyg), if you have questions, feature requests, found bugs, or just want to see what other cool people do with this Language join the  Discord Server
 
 ## Orginal
