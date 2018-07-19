@@ -114,7 +114,7 @@ public class VarEdit extends ParserRule {
 				Content c = new Content("varedit", new Object[]{varname,"=",val}, line);
 				parsed.add(c);
 				return true;
-				//TODO Fix error
+				
 			} else if(parsable.isActualWord()){
 				
 				String[] val = new String[] {parsable.actualWord(),parsable.actualWord()};

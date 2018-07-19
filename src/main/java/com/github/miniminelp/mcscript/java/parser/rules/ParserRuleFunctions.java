@@ -10,7 +10,7 @@ import com.github.miniminelp.mcscript.java.util.MCScriptObject;
 /**
  * @author Minimine
  * @since 0.0.1
- * @version 0.0.3
+ * @version 0.0.4
  *
  */
 public interface ParserRuleFunctions extends MCScriptObject {
@@ -121,7 +121,24 @@ public interface ParserRuleFunctions extends MCScriptObject {
 	public default String replaceLast(String text, String regex, String replacement) {
         return text.replaceFirst("(?s)"+regex+"(?!.*?"+regex+")", replacement);
     }
-	
+
+	/**
+	 * @param statement the statement to fix {@link String}
+	 * @return the fixed statement {@link String}
+	 */
+	public default String fixStatement(String statement) {
+
+		while(statement.startsWith(" "))statement=statement.replaceFirst(" ", "");
+		while(statement.endsWith(" "))statement=replaceLast(statement," ", "");
+		
+		if(statement.startsWith("\""))statement=statement.replaceFirst("\\\"", "");
+		else if(statement.startsWith("'"))statement=statement.replaceFirst("\\'", "");
+		
+		if(statement.endsWith("\""))statement=replaceLast(statement, "\\\"", "");
+		else if(statement.endsWith("'"))statement=replaceLast(statement, "\\'", "");
+		
+		return statement;
+	}
 	
 	/**
 	 * @author Minimine
