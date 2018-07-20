@@ -5,6 +5,8 @@ package com.github.miniminelp.mcscript.java.generator.rules;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import com.github.miniminelp.mcscript.java.generator.GeneratorRule;
 import com.github.miniminelp.mcscript.java.parser.ConstUseParser;
@@ -29,9 +31,8 @@ public class ConstDeclaration extends GeneratorRule {
 		Object[] content = (Object[]) this.content.getContent();
 		
 		String name = ConstUseParser.filter((String) content[0], consts);
-		Object value = content[1];
-		if(content[1] instanceof String)value = ConstUseParser.filter((String) content[1], consts);
-		
+		Object value = parseValue(content[1]);
+
 		if(consts.containsKey(name))throwError("Can't double define a constant", this.content.getLine(), obj.getFile());
 		
 		if(name.contains(".")) {
@@ -62,5 +63,39 @@ public class ConstDeclaration extends GeneratorRule {
 		else consts.put(name, value);
 		
 		return list();
+	}
+
+	/**
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private Object parseValue(Object value) {
+		
+		if(value instanceof String) {
+			value = ConstUseParser.filter((String) value, consts);
+
+			HashMap<String, Object> filter = listSubs(consts);
+			String key = fixIgnored((String) value);
+			
+			if(filter.containsKey(key)) {
+				Object o = filter.get(key);
+				value = o;
+			}
+			else value = fixSelector((String) value);
+		} 
+		
+		else if (value instanceof HashMap) {
+			
+			Set<Entry<String, Object>> s = ((HashMap<String,Object>)value).entrySet();
+			HashMap<String, Object> ret = new HashMap<String,Object>();
+			
+			for(Entry<String,Object> e : s) {
+				ret.put(e.getKey(),parseValue(e.getValue()));
+			}
+			
+			return ret;
+		}
+		return value;
+		
 	}
 }

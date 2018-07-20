@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.github.miniminelp.mcscript.java.parser.Content;
 import com.github.miniminelp.mcscript.java.parser.ParsedObject;
-import com.github.miniminelp.mcscript.java.util.MCScriptObject;
 
 /**
  * @author Minimine
@@ -16,7 +15,7 @@ import com.github.miniminelp.mcscript.java.util.MCScriptObject;
  * @version 0.0.4
  *
  */
-public abstract class GeneratorRule implements MCScriptObject, GeneratorFunctions {
+public abstract class GeneratorRule implements GeneratorFunctions {
 	
 	protected Content content;
 	protected ParsedObject obj;

@@ -3,16 +3,20 @@
  */
 package com.github.miniminelp.mcscript.java.generator;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
+
+import com.github.miniminelp.mcscript.java.util.MCScriptObject;
 
 /**
  * @author Minimine
  * @since 0.0.1
- * @version 0.0.1
+ * @version 0.0.4
  *
  */
-public interface GeneratorFunctions {
+public interface GeneratorFunctions extends MCScriptObject {
 	
 	public default void throwError(String error, int line, String file) {
 		
@@ -90,5 +94,45 @@ public interface GeneratorFunctions {
 		else if(selector.endsWith("'"))selector=replaceLast(selector, "\\'", "");
 		
 		return selector;
+	}
+	
+	/**
+	 * @param s the string to test
+	 * @return if matches
+	 */
+	public default boolean matchesVar(String s) {
+		return s.matches("([0-9a-zA-Z]|_|\\.)+");
+	}
+	
+	/**
+	 * @param hm the HashMap to list
+	 * @return the listed hashmap
+	 */
+	@SuppressWarnings("unchecked")
+	public default HashMap<String, Object> listSubs(HashMap<String, Object> hm) {
+		
+		HashMap<String, Object> ret = new HashMap<String, Object>();
+		for(Entry<String, Object> e : hm.entrySet()) {
+			if(e.getValue() instanceof HashMap) {
+				for(Entry<String, Object> entry : listSubs((HashMap<String, Object>) e.getValue()).entrySet()) {
+					ret.put(e.getKey()+"."+entry.getKey(), entry.getValue());
+				}
+			}
+			ret.put(e.getKey(),e.getValue());
+		}
+		return ret;
+	}
+	
+	/**
+	 * @param s the {@link String} to fix
+	 * @return the fixed {@link String}
+	 */
+	public default String fixIgnored(String s) {
+		while(s.startsWith(" ")||s.startsWith("\t")||s.startsWith("\r")||s.startsWith("\n"))
+			s=s.replaceFirst(" ", "").replaceFirst("\t", "").replaceFirst("\r", "").replaceFirst("\n", "");
+		while(s.endsWith(" ")||s.endsWith("\t")||s.endsWith("\r")||s.endsWith("\n"))
+			s=replaceLast(replaceLast(replaceLast(replaceLast(s," ", ""),"\t", ""),"\r", ""),"\n", "");
+		
+		return s;
 	}
 }

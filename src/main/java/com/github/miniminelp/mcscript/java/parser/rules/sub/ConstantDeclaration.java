@@ -1,14 +1,16 @@
 /**
- * @project mcscript
- * @package com.github.miniminelp.mcscript.java.parser.rules.sub
- * @file: VarDeclaration.java
+ *
  */
 package com.github.miniminelp.mcscript.java.parser.rules.sub;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.github.miniminelp.mcscript.java.parser.Content;
 import com.github.miniminelp.mcscript.java.parser.Parsable;
+import com.github.miniminelp.mcscript.java.parser.ParsedObject;
+import com.github.miniminelp.mcscript.java.parser.SubParsingExecutor;
 import com.github.miniminelp.mcscript.java.parser.rules.ParserRule;
 
 /**
@@ -80,9 +82,9 @@ public class ConstantDeclaration extends ParserRule {
 	}
 
 	/**
-	 * 
+	 * @return the parsed value
 	 */
-	private Object parseValue() {
+	public Object parseValue() {
 		
 		Object[] s = parseValue(parsable);
 		
@@ -93,7 +95,11 @@ public class ConstantDeclaration extends ParserRule {
 	}
 	
 
-	private Object[] parseValue(Parsable parsable) {
+	/**
+	 * @param parsable the parsable {@link Parsable}
+	 * @return an {@link Object} containing [{@link Parsable}]
+	 */
+	public Object[] parseValue(Parsable parsable) {
 		
 		Object val;
 		
@@ -107,14 +113,14 @@ public class ConstantDeclaration extends ParserRule {
 			StatementParseResult res = parseStatement(parsable);
 			parsable = res.getParsable();
 			String s = res.getResult();
-			val = replaceLast(s.replaceFirst("\\\"", ""), "\\\"", "");
+			val = s;//replaceLast(s.replaceFirst("\\\"", ""), "\\\"", "");
 			
 		} else if (parsable.actual().equals("'")) {
 
 			StatementParseResult res = parseStatement(parsable);
 			parsable = res.getParsable();
 			String s = res.getResult();
-			val = replaceLast(s.replaceFirst("'", ""), "'", "");
+			val = "\""+replaceLast(s.replaceFirst("'", ""), "'", "")+"\"";
 				
 		} else if (parsable.actual().equals("{")) {
 
@@ -173,7 +179,64 @@ public class ConstantDeclaration extends ParserRule {
 			
 			val = object;
 				
-		} else {
+		} 
+		
+		else if(parsable.isActualWord()&&parsable.actualWord().equals("modal")) {
+			parsable.skipWord();
+			parsable.skipIgnored();
+			
+			if(!parsable.actual().equals("("))throwErr("Can't create a modal without '()' ",parsable,file);
+			
+			parsable.skip();
+				
+			List<String> arguments = new LinkedList<String>();
+				
+			// Now get arguments (if exists)
+			if(!parsable.actual().equals(")")) {
+				
+				String arg = "";
+						
+				while(!parsable.actual().equals(")")){
+					
+					if(!parsable.has(parsable.getPosition()))
+						throwErr("Unclosed method definition",parsable,file);
+							
+					if(parsable.actual().equals(",")) {
+						if(arg.equals(""))throwErr("Empty required method argument",parsable,file);
+						arguments.add(arg);
+						arg = "";
+					}
+							
+					else arg += parsable.actual();
+					parsable.skip();
+					
+				}
+					
+				if(arg.equals(""))throwErr("Empty required method argument",parsable,file);
+				arguments.add(arg);
+			}
+					
+			parsable.skip();
+			parsable.skipIgnored();
+			
+			if(!parsable.actual().equals("{")) throwErr("Method without content");
+
+			StatementParseResult tr = parseStatement(parsable);
+			parsable = tr.getParsable();
+			String r = tr.getResult();
+			String statement = replaceLast(r.replaceFirst("\\{", ""),"\\}","");
+			
+			Parsable subp = new Parsable(statement);
+			SubParsingExecutor exec = new SubParsingExecutor(subp, file);
+			ParsedObject res = exec.parse();
+			
+			if(!res.getMethods().isEmpty())throwErr("Can't define a method in a method");
+			
+			Content action = new Content("methoddefine", new Object[]{"(Unknown)", arguments, res}, parsable.getLine());
+			val = action;
+		}
+		
+		else {
 			int distanceToSemicolon = parsable.distanceToNext(";".charAt(0));
 			int distanceToLinebreak = parsable.distanceToNext(LINESEPERATOR.charAt(0));
 			int distanceToComma = parsable.distanceToNext(LINESEPERATOR.charAt(0));

@@ -9,7 +9,7 @@ import com.github.miniminelp.mcscript.java.util.MCScriptObject;
 /**
  * @author Minimine
  * @since 0.0.1
- * @version 0.0.3
+ * @version 0.0.4
  *
  */
 
@@ -20,7 +20,7 @@ public class Util implements MCScriptObject {
 			+ "anchored while stop continue "
 			+ "score ";
 	
-	public static final String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_123456789";
+	public static final String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_0123456789";
 	
 	public static final String NUMBERS = "1234567890";
 
